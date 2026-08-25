@@ -1,9 +1,9 @@
-// Family & Pets Status Sub-Panels with Uploaded Photo Avatars
+// Family & Pets Status Sub-Panels with High-Resolution Face Avatars
 // Family: Brillianna, Aurora, Matthison, Ryker, Linda, Laura
 // Cats: Jax, Atom, Mau
 
-const FAMILY_STORAGE_KEY = 'matthews_family_status_v2';
-const CATS_STORAGE_KEY = 'matthews_cats_status_v2';
+const FAMILY_STORAGE_KEY = 'matthews_family_status_v3';
+const CATS_STORAGE_KEY = 'matthews_cats_status_v3';
 
 const defaultFamily = [
   { 
@@ -14,8 +14,7 @@ const defaultFamily = [
     note: 'Working on visual design art & creative concepts', 
     time: 'Active now', 
     mood: '🌟 Inspired', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089447.jpg',
-    relAvatar: 'assets/family/brillianna.jpg',
+    avatar: './assets/family/brillianna.jpg',
     color: 'from-pink-500 to-rose-400' 
   },
   { 
@@ -26,8 +25,7 @@ const defaultFamily = [
     note: 'Gymnastics practice & mountain adventures', 
     time: 'Active now', 
     mood: '✨ Energetic', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089444.jpg',
-    relAvatar: 'assets/family/aurora.jpg',
+    avatar: './assets/family/aurora.jpg',
     color: 'from-amber-400 to-orange-500' 
   },
   { 
@@ -38,8 +36,7 @@ const defaultFamily = [
     note: 'Shop workbench assembly & robotics coding', 
     time: 'Active now', 
     mood: '🚀 Focused', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089265.jpg',
-    relAvatar: 'assets/family/matthison.jpg',
+    avatar: './assets/family/matthison.jpg',
     color: 'from-cyan-400 to-blue-500' 
   },
   { 
@@ -50,8 +47,7 @@ const defaultFamily = [
     note: 'Helped align railing brackets on North steps', 
     time: 'Active now', 
     mood: '⚡ High Energy', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089265.jpg',
-    relAvatar: 'assets/family/ryker.jpg',
+    avatar: './assets/family/ryker.jpg',
     color: 'from-emerald-400 to-teal-500' 
   },
   { 
@@ -62,8 +58,7 @@ const defaultFamily = [
     note: 'Landscape grading, soil rolling & wellness', 
     time: 'Active now', 
     mood: '🌿 Productive', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089440.jpg',
-    relAvatar: 'assets/family/linda.jpg',
+    avatar: './assets/family/linda.jpg',
     color: 'from-purple-400 to-indigo-500' 
   },
   { 
@@ -74,8 +69,7 @@ const defaultFamily = [
     note: 'Bathroom vanity & fixture selection for 2:00 PM', 
     time: 'Active now', 
     mood: '💼 Motivated', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089440.jpg',
-    relAvatar: 'assets/family/laura.jpg',
+    avatar: './assets/family/laura.jpg',
     color: 'from-violet-500 to-fuchsia-500' 
   }
 ];
@@ -90,8 +84,7 @@ const defaultCats = [
     nextFed: '05:30 PM', 
     diet: 'Organic Salmon Wet Food', 
     mood: '😺 Purring Loudly', 
-    avatar: 'C:/Users/Matthew/.gemini/antigravity/brain/4d7b617f-1d3b-459d-b0c1-59fc60258199/.user_uploaded/media_1787671089266.jpg',
-    relAvatar: 'assets/family/jax.jpg',
+    avatar: './assets/family/jax.jpg',
     color: 'from-slate-400 to-slate-100' 
   },
   { 
@@ -104,7 +97,6 @@ const defaultCats = [
     diet: 'Crunchy Kibble + Omega-3', 
     mood: '⚡ High Zoomies', 
     avatar: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80',
-    relAvatar: 'assets/family/atom.jpg',
     color: 'from-amber-500 to-yellow-400' 
   },
   { 
@@ -117,7 +109,6 @@ const defaultCats = [
     diet: 'Tuna Fillet & Probiotics', 
     mood: '🐾 Ultra Alert', 
     avatar: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80',
-    relAvatar: 'assets/family/mau.jpg',
     color: 'from-teal-400 to-emerald-500' 
   }
 ];
@@ -126,12 +117,30 @@ class FamilyAndPetsManager {
   constructor() {
     this.family = this.loadData(FAMILY_STORAGE_KEY, defaultFamily);
     this.cats = this.loadData(CATS_STORAGE_KEY, defaultCats);
+
+    // Ensure avatars are always populated with current paths
+    this.family.forEach(person => {
+      const match = defaultFamily.find(d => d.id === person.id);
+      if (match) {
+        person.avatar = match.avatar;
+      }
+    });
+
+    this.cats.forEach(cat => {
+      const match = defaultCats.find(d => d.id === cat.id);
+      if (match) {
+        cat.avatar = match.avatar;
+      }
+    });
   }
 
   loadData(key, fallback) {
     try {
       const stored = localStorage.getItem(key);
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
     } catch (e) {}
     return fallback;
   }
@@ -152,33 +161,33 @@ class FamilyAndPetsManager {
     if (!container) return;
 
     container.innerHTML = this.family.map(person => `
-      <div class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-sky-500/30 transition-all group flex flex-col justify-between">
-        <div class="flex items-start gap-2.5">
+      <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-sky-500/40 transition-all group flex flex-col justify-between shadow-lg">
+        <div class="flex items-start gap-3">
           <!-- Real Photo Avatar with glowing ring -->
-          <div class="w-11 h-11 rounded-full bg-gradient-to-tr ${person.color} p-[2px] flex-shrink-0 shadow-md">
-            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-tr ${person.color} p-[2px] flex-shrink-0 shadow-md shadow-sky-500/10">
+            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
               <img 
                 src="${person.avatar}" 
                 alt="${person.name}" 
                 class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-300" 
-                onerror="this.onerror=null; this.src='${person.relAvatar}'; if(!this.complete) { this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center font-bold text-xs text-white\'>${person.name.substring(0,2).toUpperCase()}</div>'; }"
+                loading="eager"
               />
             </div>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
-              <h4 class="text-xs font-bold text-slate-200 group-hover:text-sky-300 truncate">${person.name}</h4>
+              <h4 class="text-xs font-bold text-slate-100 group-hover:text-sky-300 truncate">${person.name}</h4>
               <span class="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ${person.time}
               </span>
             </div>
-            <p class="text-[11px] font-medium text-sky-400/90 truncate">${person.status}</p>
+            <p class="text-[11px] font-medium text-sky-400 truncate">${person.status}</p>
             <p class="text-[10px] text-slate-400 line-clamp-1 mt-0.5">${person.note}</p>
           </div>
         </div>
-        <div class="mt-2 pt-2 border-t border-slate-800/50 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+        <div class="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500 font-mono">
           <span>${person.mood}</span>
-          <button onclick="window.familyAndPets.editPerson('${person.id}')" class="hover:text-sky-400 transition-colors">✎ Note</button>
+          <button onclick="window.familyAndPets.editPerson('${person.id}')" class="text-sky-400 hover:underline transition-colors">✎ Note</button>
         </div>
       </div>
     `).join('');
@@ -189,34 +198,34 @@ class FamilyAndPetsManager {
     if (!container) return;
 
     container.innerHTML = this.cats.map(cat => `
-      <div class="p-3 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-amber-500/30 transition-all flex flex-col justify-between group">
-        <div class="flex items-start gap-2.5">
+      <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group shadow-lg">
+        <div class="flex items-start gap-3">
           <!-- Real Photo Avatar for Jax / Cats -->
-          <div class="w-11 h-11 rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md">
-            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md shadow-amber-500/10">
+            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
               <img 
                 src="${cat.avatar}" 
                 alt="${cat.name}" 
                 class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='${cat.relAvatar}';"
+                loading="eager"
               />
             </div>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
-              <h4 class="text-xs font-bold text-slate-200 truncate">${cat.name}</h4>
+              <h4 class="text-xs font-bold text-slate-100 truncate">${cat.name}</h4>
               <span class="hud-badge hud-badge-amber text-[9px]">${cat.role}</span>
             </div>
-            <p class="text-[11px] font-medium text-amber-300/90 truncate">${cat.status}</p>
+            <p class="text-[11px] font-medium text-amber-300 truncate">${cat.status}</p>
             <p class="text-[10px] text-slate-400 truncate mt-0.5">${cat.diet}</p>
           </div>
         </div>
 
-        <div class="mt-2 pt-2 border-t border-slate-800/50 flex items-center justify-between text-[10px]">
+        <div class="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px]">
           <div class="text-slate-400 font-mono">
-            <span>Fed: <strong class="text-slate-300">${cat.lastFed}</strong></span>
+            <span>Fed: <strong class="text-slate-200">${cat.lastFed}</strong></span>
           </div>
-          <button onclick="window.familyAndPets.feedCat('${cat.id}')" class="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold border border-amber-500/30 transition-all">
+          <button onclick="window.familyAndPets.feedCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold border border-amber-500/30 transition-all text-[10px]">
             🍖 Feed
           </button>
         </div>
