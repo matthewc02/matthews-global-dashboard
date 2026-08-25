@@ -451,3 +451,79 @@ body {
   background: rgba(4, 6, 12, 0.85);
   backdrop-filter: blur(8px);
 }
+
+/* --- Mau Food Intercept & Chonk Explosion Easter Egg --- */
+@keyframes mauDashAcross {
+  0% { transform: scale(1) translateX(0) rotate(0deg); }
+  25% { transform: scale(1.3) translateX(-50px) rotate(-12deg); filter: drop-shadow(0 0 15px #f43f5e); }
+  50% { transform: scale(1.6) translateX(-20px) rotate(10deg); }
+  75% { transform: scale(1.9) translateX(-40px) rotate(-8deg); }
+  100% { transform: scale(2.2) translateX(0) rotate(0deg); }
+}
+
+@keyframes chonkInflate {
+  0% { transform: scale(1); filter: drop-shadow(0 0 6px #f59e0b); }
+  25% { transform: scale(1.7) rotate(6deg); filter: drop-shadow(0 0 18px #f59e0b); }
+  50% { transform: scale(2.6) rotate(-8deg); filter: drop-shadow(0 0 28px #ef4444); }
+  75% { transform: scale(3.5) rotate(10deg); filter: drop-shadow(0 0 40px #dc2626); }
+  90% { transform: scale(4.2) rotate(-12deg); filter: drop-shadow(0 0 60px #ffffff); }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes shockwaveRing {
+  0% { transform: scale(0.1); opacity: 1; border-width: 8px; }
+  100% { transform: scale(4.5); opacity: 0; border-width: 1px; }
+}
+
+@keyframes confettiBurst {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot)); opacity: 0; }
+}
+
+@keyframes angelRespawn {
+  0% { transform: translateY(-30px) scale(0.2); opacity: 0; }
+  60% { transform: translateY(6px) scale(1.25); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.mau-running {
+  animation: mauDashAcross 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+  z-index: 50 !important;
+}
+
+.mau-inflating {
+  animation: chonkInflate 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+  z-index: 50 !important;
+}
+
+.mau-respawning {
+  animation: angelRespawn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+}
+
+.shockwave-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  border-radius: 50%;
+  border: 4px solid #f43f5e;
+  animation: shockwaveRing 0.8s ease-out forwards;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.confetti-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  font-size: 14px;
+  pointer-events: none;
+  animation: confettiBurst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  z-index: 60;
+}
+

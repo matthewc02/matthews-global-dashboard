@@ -302,28 +302,171 @@ class FamilyAndPetsManager {
   }
 
   feedCat(id) {
-    const cat = this.cats.find(c => c.id === id);
-    if (!cat) return;
+    const targetCat = this.cats.find(c => c.id === id);
+    if (!targetCat) return;
 
-    cat.lastFed = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    cat.status = 'Enjoying Fresh Meal 🥣';
-    cat.mood = '😸 Purring Happily';
-    this.saveData(CATS_STORAGE_KEY, this.cats);
+    const mau = this.cats.find(c => c.id === 'c-3'); // Mau
+
+    if (id === 'c-1' || id === 'c-2') {
+      // Easter Egg: Jax or Atom is fed -> Mau intercepts!
+      this.triggerMauExplosionEasterEgg(targetCat, mau);
+    } else {
+      // Mau fed directly
+      targetCat.lastFed = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      targetCat.status = 'Enjoying Fresh Salmon & Kibble 🥣';
+      targetCat.mood = '😸 Purring Happily';
+      this.saveData(CATS_STORAGE_KEY, this.cats);
+      this.renderCats();
+
+      if (window.soundFx) window.soundFx.playSuccess();
+
+      if (window.artifactRing) {
+        window.artifactRing.addArtifact(
+          `Cat Feeding Log: Mau fed at ${targetCat.lastFed}`,
+          'Routines',
+          `Direct feeding session for Mau (${targetCat.diet}).`,
+          `### Feline Nutrition Telemetry
+- **Subject**: Mau (Egyptian Scout)
+- **Timestamp**: ${targetCat.lastFed}
+- **Ration**: ${targetCat.diet}
+- **Behavior Status**: Fully satisfied`
+        );
+      }
+    }
+  }
+
+  triggerMauExplosionEasterEgg(victimCat, mau) {
+    if (!mau) return;
+
+    // 1. Audio: Sprint & Nom
+    if (window.soundFx) window.soundFx.playMauSprintAndNom();
+
+    const prevVictimStatus = victimCat.status;
+    const prevVictimMood = victimCat.mood;
+    const prevMauStatus = mau.status;
+    const prevMauMood = mau.mood;
+
+    // Victim Cat gets shocked
+    victimCat.status = `🙀 Hey! Mau intercepted my bowl!`;
+    victimCat.mood = `😿 Robbed by Mau!`;
+
+    // Mau Phase 1: Sprinting across!
+    mau.status = `💨 Mach 2 Sprint! Snatched ${victimCat.name}'s meal! 🏃💨`;
+    mau.mood = `😼 Speed Goblin`;
     this.renderCats();
 
-    if (window.soundFx) window.soundFx.playSuccess();
+    const mauAvatarEl = document.querySelector('#cats-panels-grid > div:nth-child(3) .relative');
+    if (mauAvatarEl) {
+      mauAvatarEl.classList.add('mau-running');
+    }
 
-    if (window.artifactRing) {
-      window.artifactRing.addArtifact(
-        `Cat Feeding Log: ${cat.name} fed at ${cat.lastFed}`,
-        'Routines',
-        `Logged automatic feeding session for ${cat.name} (${cat.diet}). Health metrics optimal.`,
-        `### Feline Nutrition Telemetry
-- **Subject**: ${cat.name} (${cat.role})
-- **Timestamp**: ${cat.lastFed}
-- **Ration**: ${cat.diet}
-- **Behavior Status**: Post-meal content & satisfied`
-      );
+    // Mau Phase 2: Inhaling food & Inflating (after 600ms)
+    setTimeout(() => {
+      if (window.soundFx) window.soundFx.playMauInflate();
+
+      mau.status = `🍗 Inhaling kibble... Inflating to 400% CHONK... 🎈💥`;
+      mau.mood = `🐡 Maximum Chonk`;
+      this.renderCats();
+
+      const el = document.querySelector('#cats-panels-grid > div:nth-child(3) .relative');
+      if (el) {
+        el.classList.remove('mau-running');
+        el.classList.add('mau-inflating');
+      }
+    }, 600);
+
+    // Mau Phase 3: POP / Explosion! (after 2400ms)
+    setTimeout(() => {
+      if (window.soundFx) window.soundFx.playMauExplosion();
+
+      mau.status = `💥 *KABOOOOOM!!* Mau reached critical chonk & detonated! ✨🎉`;
+      mau.mood = `💥 Exploded into Stardust`;
+      this.renderCats();
+
+      // Spawn DOM Particles & Shockwave on Mau's card
+      this.spawnExplosionParticles();
+
+      if (window.artifactRing) {
+        window.artifactRing.addArtifact(
+          `🚨 Mau Kibble Intercept & Critical Chonk Detonation!`,
+          'Routines',
+          `Mau intercepted ${victimCat.name}'s meal at Mach 2, reached critical chonk mass, and exploded into celebratory confetti.`,
+          `### 💥 Mau Tactical Heist Report
+- **Target Cat**: ${victimCat.name} (${victimCat.role})
+- **Perpetrator**: Mau (The Egyptian Scout)
+- **Top Speed**: 58.4 km/h (Living Room Sprint)
+- **Calories Inhaled**: 4,200 kcal in 0.4s
+- **Final Chonk Radius**: 3.8x baseline
+- **Event Outcome**: Spontaneous celebratory confetti explosion ✨🎉
+- **Status**: Teleporting back with angel wings...`
+        );
+      }
+    }, 2400);
+
+    // Mau Phase 4: Angelic Respawn (after 4200ms)
+    setTimeout(() => {
+      if (window.soundFx) window.soundFx.playMauRespawn();
+
+      mau.status = `✨ Respawned with angel halo! Ready for round 2! 😇😹`;
+      mau.mood = `😇 Innocent Angel`;
+      victimCat.status = `😸 ${victimCat.name} got a replacement fresh bowl! 🥣`;
+      victimCat.mood = `😺 Content & Fed`;
+      victimCat.lastFed = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      mau.lastFed = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      this.saveData(CATS_STORAGE_KEY, this.cats);
+      this.renderCats();
+
+      const el = document.querySelector('#cats-panels-grid > div:nth-child(3) .relative');
+      if (el) {
+        el.classList.remove('mau-inflating');
+        el.classList.add('mau-respawning');
+        setTimeout(() => el.classList.remove('mau-respawning'), 1000);
+      }
+
+      // Restore normal status after 6 more seconds
+      setTimeout(() => {
+        victimCat.status = prevVictimStatus;
+        victimCat.mood = '😸 Purring';
+        mau.status = prevMauStatus;
+        mau.mood = '🐾 Ultra Alert';
+        this.saveData(CATS_STORAGE_KEY, this.cats);
+        this.renderCats();
+      }, 7000);
+    }, 4200);
+  }
+
+  spawnExplosionParticles() {
+    const mauCard = document.querySelector('#cats-panels-grid > div:nth-child(3)');
+    if (!mauCard) return;
+
+    const emojis = ['💥', '🎉', '✨', '🍗', '🐟', '⭐', '💫', '💖', '🍖', '⚡'];
+
+    // Shockwave ring
+    const shockwave = document.createElement('div');
+    shockwave.className = 'shockwave-effect';
+    mauCard.style.position = 'relative';
+    mauCard.appendChild(shockwave);
+    setTimeout(() => shockwave.remove(), 900);
+
+    // Confetti / Food Particles
+    for (let i = 0; i < 24; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-particle';
+      p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+      const angle = (Math.PI * 2 / 24) * i + (Math.random() - 0.5) * 0.4;
+      const distance = 60 + Math.random() * 90;
+      const tx = Math.cos(angle) * distance + 'px';
+      const ty = Math.sin(angle) * distance + 'px';
+      const rot = (Math.random() * 720 - 360) + 'deg';
+
+      p.style.setProperty('--tx', tx);
+      p.style.setProperty('--ty', ty);
+      p.style.setProperty('--rot', rot);
+
+      mauCard.appendChild(p);
+      setTimeout(() => p.remove(), 1200);
     }
   }
 
