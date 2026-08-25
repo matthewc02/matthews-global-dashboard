@@ -2,8 +2,8 @@
 // Family: Brillianna, Aurora, Matthison, Ryker, Linda, Laura
 // Cats: Jax, Atom, Mau
 
-const FAMILY_STORAGE_KEY = 'matthews_family_status_v5';
-const CATS_STORAGE_KEY = 'matthews_cats_status_v5';
+const FAMILY_STORAGE_KEY = 'matthews_family_status_v7';
+const CATS_STORAGE_KEY = 'matthews_cats_status_v7';
 
 const defaultFamily = [
   { 
@@ -52,23 +52,23 @@ const defaultFamily = [
   },
   { 
     id: 'f-5', 
-    name: 'Linda', 
-    role: 'Family', 
-    status: 'Home & Yard Works', 
-    note: 'Landscape grading, soil rolling & wellness', 
+    name: 'Grandma Linda', 
+    role: 'Grandma', 
+    status: 'Great mom and grandma', 
+    note: 'Great mom and grandma • Landscape grading, soil rolling & family care', 
     time: 'Active now', 
-    mood: '🌿 Productive', 
+    mood: '🌿 Loving & Caring', 
     avatar: './assets/family/linda.jpg',
     color: 'from-purple-400 to-indigo-500' 
   },
   { 
     id: 'f-6', 
-    name: 'Laura', 
-    role: 'Family', 
-    status: 'Executive & Reno Sync', 
-    note: 'Bathroom vanity & fixture selection for 2:00 PM', 
+    name: 'Great Grandma Lara', 
+    role: 'Great Grandma', 
+    status: 'Great grandma to all', 
+    note: 'Great grandma to all • Cherished matriarch & family heart', 
     time: 'Active now', 
-    mood: '💼 Motivated', 
+    mood: '💖 Warm & Beloved', 
     avatar: './assets/family/laura.jpg',
     color: 'from-violet-500 to-fuchsia-500' 
   },
