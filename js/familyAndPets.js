@@ -96,7 +96,7 @@ const defaultCats = [
     nextFed: '05:30 PM', 
     diet: 'Crunchy Kibble + Omega-3', 
     mood: '⚡ High Zoomies', 
-    avatar: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80',
+    avatar: './assets/family/atom.jpg',
     color: 'from-amber-500 to-yellow-400' 
   },
   { 
@@ -108,7 +108,7 @@ const defaultCats = [
     nextFed: '05:30 PM', 
     diet: 'Tuna Fillet & Probiotics', 
     mood: '🐾 Ultra Alert', 
-    avatar: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=400&q=80',
+    avatar: './assets/family/mau.jpg',
     color: 'from-teal-400 to-emerald-500' 
   }
 ];
