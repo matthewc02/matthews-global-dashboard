@@ -152,8 +152,8 @@ How may I assist your Tuesday workflow today?`
     }
 
     // Family
-    if (p.includes('family') || p.includes('aurora') || p.includes('brillianna') || p.includes('laura')) {
-      return `Family Mesh Telemetry: All 6 family nodes (**Brillianna, Aurora, Matthison, Ryker, Linda, Laura**) are active. Aurora has gymnastics at 4:30 PM, and Laura has your strategy sync at 2:00 PM.`;
+    if (p.includes('family') || p.includes('aurora') || p.includes('brillianna') || p.includes('laura') || p.includes('charles')) {
+      return `Family Mesh Telemetry: All 7 family nodes (**Brillianna, Aurora, Matthison, Ryker, Linda, Laura, Charles**) are active. Grandson Charles is enjoying cozy sunhat playtime, Aurora has gymnastics at 4:30 PM, and Laura has your strategy sync at 2:00 PM.`;
     }
 
     // New Artifact

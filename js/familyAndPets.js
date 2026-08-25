@@ -2,8 +2,8 @@
 // Family: Brillianna, Aurora, Matthison, Ryker, Linda, Laura
 // Cats: Jax, Atom, Mau
 
-const FAMILY_STORAGE_KEY = 'matthews_family_status_v3';
-const CATS_STORAGE_KEY = 'matthews_cats_status_v3';
+const FAMILY_STORAGE_KEY = 'matthews_family_status_v4';
+const CATS_STORAGE_KEY = 'matthews_cats_status_v4';
 
 const defaultFamily = [
   { 
@@ -71,6 +71,17 @@ const defaultFamily = [
     mood: '💼 Motivated', 
     avatar: './assets/family/laura.jpg',
     color: 'from-violet-500 to-fuchsia-500' 
+  },
+  { 
+    id: 'f-7', 
+    name: 'Charles', 
+    role: 'Grandson', 
+    status: 'Sunny Naps & Play', 
+    note: 'Tummy time & morning stroller walk in his sunhat', 
+    time: 'Active now', 
+    mood: '👶 Sweet & Cozy', 
+    avatar: './assets/family/charles.jpg',
+    color: 'from-amber-300 via-yellow-400 to-sky-400' 
   }
 ];
 
