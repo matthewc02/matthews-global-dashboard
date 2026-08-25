@@ -211,8 +211,8 @@ class FamilyAndPetsManager {
     container.innerHTML = this.cats.map(cat => `
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group shadow-lg">
         <div class="flex items-start gap-3">
-          <!-- Real Photo Avatar for Jax / Cats (Guaranteed 1:1 Aspect Ratio) -->
-          <div class="w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md shadow-amber-500/10">
+          <!-- Real Photo Avatar for Jax / Cats with interactive Pet badge -->
+          <div class="relative w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md shadow-amber-500/10">
             <div class="w-full h-full aspect-square rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
               <img 
                 src="${cat.avatar}" 
@@ -221,27 +221,45 @@ class FamilyAndPetsManager {
                 loading="eager"
               />
             </div>
+            <!-- Interactive Floating Paw Button on Avatar -->
+            <button 
+              onclick="window.familyAndPets.petCat('${cat.id}')" 
+              class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-pink-600 hover:bg-pink-500 text-white flex items-center justify-center text-[11px] shadow-lg border border-pink-400 hover:scale-125 transition-transform cursor-pointer"
+              title="Click to Pet ${cat.name} 🐾"
+            >
+              🐾
+            </button>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-slate-100 truncate">${cat.name}</h4>
               <span class="hud-badge hud-badge-amber text-[9px]">${cat.role}</span>
             </div>
-            <p class="text-[11px] font-medium text-amber-300 truncate">${cat.status}</p>
+            <p id="cat-status-${cat.id}" class="text-[11px] font-medium text-amber-300 truncate">${cat.status}</p>
             <p class="text-[10px] text-slate-400 truncate mt-0.5">${cat.diet}</p>
           </div>
         </div>
 
-        <div class="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px]">
-          <div class="text-slate-400 font-mono">
+        <!-- Action Bar with High-Visibility Pet & Feed Buttons -->
+        <div class="mt-3 pt-2.5 border-t border-slate-800/60 flex items-center justify-between gap-2">
+          <div class="text-slate-400 font-mono text-[10px]">
             <span>Fed: <strong class="text-slate-200">${cat.lastFed}</strong></span>
           </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="window.familyAndPets.petCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-semibold border border-rose-500/30 hover:shadow-lg hover:shadow-rose-500/20 transition-all text-[10px] flex items-center gap-1" title="Pet ${cat.name}">
-              <span>🐾</span> Pet
+          <div class="flex items-center gap-2">
+            <button 
+              onclick="window.familyAndPets.petCat('${cat.id}')" 
+              class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-bold text-[11px] shadow-md shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5 cursor-pointer" 
+              title="Pet ${cat.name} for happy purrs!"
+            >
+              <span class="text-sm">🐾</span>
+              <span>Pet Cat</span>
             </button>
-            <button onclick="window.familyAndPets.feedCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold border border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/20 transition-all text-[10px] flex items-center gap-1">
-              <span>🍖</span> Feed
+            <button 
+              onclick="window.familyAndPets.feedCat('${cat.id}')" 
+              class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 hover:border-amber-400 font-bold text-[11px] hover:scale-105 transition-all flex items-center gap-1 cursor-pointer"
+            >
+              <span>🍖</span>
+              <span>Feed</span>
             </button>
           </div>
         </div>
