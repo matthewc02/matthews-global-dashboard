@@ -174,13 +174,13 @@ class FamilyAndPetsManager {
     container.innerHTML = this.family.map(person => `
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-sky-500/40 transition-all group flex flex-col justify-between shadow-lg">
         <div class="flex items-start gap-3">
-          <!-- Real Photo Avatar with glowing ring -->
-          <div class="w-12 h-12 rounded-full bg-gradient-to-tr ${person.color} p-[2px] flex-shrink-0 shadow-md shadow-sky-500/10">
-            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
+          <!-- Real Photo Avatar with glowing ring (Guaranteed 1:1 Aspect Ratio) -->
+          <div class="w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full bg-gradient-to-tr ${person.color} p-[2px] flex-shrink-0 shadow-md shadow-sky-500/10">
+            <div class="w-full h-full aspect-square rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
               <img 
                 src="${person.avatar}" 
                 alt="${person.name}" 
-                class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-300" 
+                class="w-full h-full aspect-square object-cover object-center group-hover:scale-110 transition-transform duration-300" 
                 loading="eager"
               />
             </div>
@@ -211,13 +211,13 @@ class FamilyAndPetsManager {
     container.innerHTML = this.cats.map(cat => `
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 transition-all flex flex-col justify-between group shadow-lg">
         <div class="flex items-start gap-3">
-          <!-- Real Photo Avatar for Jax / Cats -->
-          <div class="w-12 h-12 rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md shadow-amber-500/10">
-            <div class="w-full h-full rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
+          <!-- Real Photo Avatar for Jax / Cats (Guaranteed 1:1 Aspect Ratio) -->
+          <div class="w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full bg-gradient-to-tr ${cat.color} p-[2px] flex-shrink-0 shadow-md shadow-amber-500/10">
+            <div class="w-full h-full aspect-square rounded-full bg-slate-950 overflow-hidden relative border border-slate-900">
               <img 
                 src="${cat.avatar}" 
                 alt="${cat.name}" 
-                class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-300"
+                class="w-full h-full aspect-square object-cover object-center group-hover:scale-110 transition-transform duration-300"
                 loading="eager"
               />
             </div>

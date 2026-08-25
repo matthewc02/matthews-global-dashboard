@@ -45,9 +45,9 @@
   <!-- HUD Top Bar -->
   <header class="hud-header sticky top-0 z-40 px-4 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center gap-3.5">
-      <!-- Matthew Profile Avatar -->
-      <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500 p-[2px] shadow-lg shadow-sky-500/20 overflow-hidden flex-shrink-0">
-        <img src="./assets/family/matthew.jpg" alt="Matthew" class="w-full h-full object-cover rounded-[9px]" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'" />
+      <!-- Matthew Profile Avatar (1:1 Aspect Ratio) -->
+      <div class="w-11 h-11 min-w-[44px] min-h-[44px] aspect-square rounded-xl bg-gradient-to-tr from-sky-500 via-indigo-500 to-purple-500 p-[2px] shadow-lg shadow-sky-500/20 overflow-hidden flex-shrink-0">
+        <img src="./assets/family/matthew.jpg" alt="Matthew" class="w-full h-full aspect-square object-cover object-center rounded-[9px]" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'" />
       </div>
       <div>
         <h1 class="text-lg lg:text-xl font-black tracking-tight neon-title">Matthews Global Dashboard-Tuesday</h1>
