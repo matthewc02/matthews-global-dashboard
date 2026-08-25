@@ -2,18 +2,18 @@
 // Family: Brillianna, Aurora, Matthison, Ryker, Linda, Laura
 // Cats: Jax, Atom, Mau
 
-const FAMILY_STORAGE_KEY = 'matthews_family_status_v4';
-const CATS_STORAGE_KEY = 'matthews_cats_status_v4';
+const FAMILY_STORAGE_KEY = 'matthews_family_status_v5';
+const CATS_STORAGE_KEY = 'matthews_cats_status_v5';
 
 const defaultFamily = [
   { 
     id: 'f-1', 
-    name: 'Brillianna', 
-    role: 'Family', 
-    status: 'Creative Studio', 
-    note: 'Working on visual design art & creative concepts', 
+    name: 'Brillianna May Carson', 
+    role: 'Awesome Daughter, T1', 
+    status: 'HMFIC of Whistler Premier (-: ❤️', 
+    note: 'Awesome Daughter, T1, and HMFIC of Whistler Premier (-: ❤️', 
     time: 'Active now', 
-    mood: '🌟 Inspired', 
+    mood: '🌟 Inspired & Fierce', 
     avatar: './assets/family/brillianna.jpg',
     color: 'from-pink-500 to-rose-400' 
   },
