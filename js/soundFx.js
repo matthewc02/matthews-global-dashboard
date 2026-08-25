@@ -1,4 +1,4 @@
-// Web Audio API Procedural Cybernetic Sound Synthesizer
+// Web Audio API Procedural Cybernetic Sound Synthesizer + Cute Pet Audio
 class SoundManager {
   constructor() {
     this.ctx = null;
@@ -92,6 +92,84 @@ class SoundManager {
         osc.stop(now + i * 0.06 + 0.2);
       });
     } catch (e) {}
+  }
+
+  // Cute Cat Purr & Happy Meow Sound Synthesizer
+  playPetMeow() {
+    if (!this.enabled) return;
+    try {
+      this.init();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') this.ctx.resume();
+
+      const now = this.ctx.currentTime;
+
+      // 1. Cute Vocal "Meow / Mrrp" Curve
+      const voiceOsc = this.ctx.createOscillator();
+      const voiceGain = this.ctx.createGain();
+      
+      voiceOsc.type = 'sine';
+      voiceOsc.frequency.setValueAtTime(460, now);
+      voiceOsc.frequency.exponentialRampToValueAtTime(740, now + 0.12);
+      voiceOsc.frequency.exponentialRampToValueAtTime(540, now + 0.35);
+
+      voiceGain.gain.setValueAtTime(0.001, now);
+      voiceGain.gain.linearRampToValueAtTime(0.08, now + 0.08);
+      voiceGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      voiceOsc.connect(voiceGain);
+      voiceGain.connect(this.ctx.destination);
+      voiceOsc.start(now);
+      voiceOsc.stop(now + 0.35);
+
+      // 2. Harmonic Overtone (Chirrup tone)
+      const harmonicOsc = this.ctx.createOscillator();
+      const harmonicGain = this.ctx.createGain();
+
+      harmonicOsc.type = 'triangle';
+      harmonicOsc.frequency.setValueAtTime(920, now + 0.04);
+      harmonicOsc.frequency.exponentialRampToValueAtTime(1480, now + 0.16);
+      harmonicOsc.frequency.exponentialRampToValueAtTime(1080, now + 0.35);
+
+      harmonicGain.gain.setValueAtTime(0.001, now + 0.04);
+      harmonicGain.gain.linearRampToValueAtTime(0.03, now + 0.12);
+      harmonicGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      harmonicOsc.connect(harmonicGain);
+      harmonicGain.connect(this.ctx.destination);
+      harmonicOsc.start(now + 0.04);
+      harmonicOsc.stop(now + 0.35);
+
+      // 3. Gentle Rhythmic Purr Rumble
+      const purrOsc = this.ctx.createOscillator();
+      const purrGain = this.ctx.createGain();
+      const lfo = this.ctx.createOscillator();
+      const lfoGain = this.ctx.createGain();
+
+      purrOsc.type = 'sine';
+      purrOsc.frequency.setValueAtTime(80, now + 0.15);
+
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(24, now + 0.15); // 24Hz purr flutter
+
+      lfoGain.gain.setValueAtTime(0.04, now + 0.15);
+      lfo.connect(lfoGain);
+      lfoGain.connect(purrGain.gain);
+
+      purrGain.gain.setValueAtTime(0.04, now + 0.15);
+      purrGain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+      purrOsc.connect(purrGain);
+      purrGain.connect(this.ctx.destination);
+
+      lfo.start(now + 0.15);
+      purrOsc.start(now + 0.15);
+      lfo.stop(now + 0.65);
+      purrOsc.stop(now + 0.65);
+
+    } catch (e) {
+      console.debug('Pet sound error:', e);
+    }
   }
 
   toggle() {

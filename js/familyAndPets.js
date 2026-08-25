@@ -236,12 +236,51 @@ class FamilyAndPetsManager {
           <div class="text-slate-400 font-mono">
             <span>Fed: <strong class="text-slate-200">${cat.lastFed}</strong></span>
           </div>
-          <button onclick="window.familyAndPets.feedCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold border border-amber-500/30 transition-all text-[10px]">
-            🍖 Feed
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button onclick="window.familyAndPets.petCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-semibold border border-rose-500/30 hover:shadow-lg hover:shadow-rose-500/20 transition-all text-[10px] flex items-center gap-1" title="Pet ${cat.name}">
+              <span>🐾</span> Pet
+            </button>
+            <button onclick="window.familyAndPets.feedCat('${cat.id}')" class="px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold border border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/20 transition-all text-[10px] flex items-center gap-1">
+              <span>🍖</span> Feed
+            </button>
+          </div>
         </div>
       </div>
     `).join('');
+  }
+
+  petCat(id) {
+    const cat = this.cats.find(c => c.id === id);
+    if (!cat) return;
+
+    if (window.soundFx) {
+      window.soundFx.playPetMeow();
+    }
+
+    const prevStatus = cat.status;
+    cat.status = '❤️ Purring & Enjoying Scratches! 😸';
+    cat.mood = '😻 In Pure Bliss';
+    this.renderCats();
+
+    if (window.artifactRing) {
+      window.artifactRing.addArtifact(
+        `Petting Session: Scratched ${cat.name}`,
+        'Routines',
+        `Interactive affection session with ${cat.name}. Feline dopamine & purr telemetry at 100%.`,
+        `### Feline Affection Interaction
+- **Companion**: ${cat.name} (${cat.role})
+- **Timestamp**: ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+- **Reaction**: Leaning in for chin scratches & purring continuously
+- **Happiness Index**: 10/10`
+      );
+    }
+
+    setTimeout(() => {
+      cat.status = prevStatus;
+      cat.mood = '😸 Purring Loudly';
+      this.saveData(CATS_STORAGE_KEY, this.cats);
+      this.renderCats();
+    }, 6000);
   }
 
   feedCat(id) {
